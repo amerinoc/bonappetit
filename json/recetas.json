@@ -1,0 +1,38 @@
+
+[{
+          "id_receta": "1",
+          "nombre": "Tortilla de patatas",
+          "ingredientes": ["Huevos","Aceite","Patatas", "Cebolla"],
+          "tipo_plato": "Principal",
+          "preparacion": "Cortas las patatas, las cebollas, bates los huevos, echas todo a la sartén y a freír.",         
+          "calorias": "200",
+          "fecha_subida": "19-05-2020",
+          "id_user": "",
+          "id_comment": ""
+          
+        }, {
+          "id_receta": "2",
+          "nombre": "Ensalada Mixta",
+          "ingredientes": ["Lechuga","Tomate","Cebolla","Maíz","Aceite","Vinagre"],
+          "tipo_plato": "Entrante",
+          "preparacion" : "Cortas todos los ingredientes, los echas a un bol, aderezar al gusto con aceite, vinagre y sal.",
+          "calorias": "100",
+          "fecha_subida": "19-05-2020",
+          "id_user": "",
+          "id_comment": ""
+          
+        }, {
+          "id_receta": "3",
+          "nombre": "Costillas al horno",
+          "ingredientes": ["Costillas","Patatas","Cebolla","Limón"],
+          "tipo_plato": "Principal",
+          "preparacion" : "Aderezar las costillas con sal y pimienta principalmente, disponer todos los ingredientes troceados alrededor de la carne y cocinar en el horno 180 grados durante 30 minutos.",
+          "calorias": "400",
+          "fecha_subida": "19-05-2020",
+          "id_user": "",
+          "id_comment": ""
+          
+        }
+
+
+  ]

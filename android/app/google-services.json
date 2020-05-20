@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "977528087352",
+    "firebase_url": "https://bonappetit-c29e2.firebaseio.com",
+    "project_id": "bonappetit-c29e2",
+    "storage_bucket": "bonappetit-c29e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977528087352:android:8483004a8b91501fc6d7cd",
+        "android_client_info": {
+          "package_name": "ac.merino.bonappetit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977528087352-dbqhbq82sh8fg2sa78etpo7lmm22oamf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu4oCUyB_HW2U2daT8rvG5OTJEmKb0a4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977528087352-dbqhbq82sh8fg2sa78etpo7lmm22oamf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
