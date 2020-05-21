@@ -1,4 +1,5 @@
 import 'package:bonappetit/Paginas/Setup/inicio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  String email, pass;
+  String email, pass, username;
   bool _valorChk = false;
+
   final GlobalKey<FormState> claveform = GlobalKey<FormState>();
 
   @override
@@ -77,6 +79,29 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
 
+              // campo USERNAME CREAR
+              Container(
+                width: 340.0,
+                margin: const EdgeInsets.only(top: 10.0),
+                child: TextFormField(
+                  // ignore: missing_return
+                  validator: (input) {
+                    if (input.isEmpty) {
+                      return 'El campo no puede quedar vacío';
+                    } // fin if validacion email
+                  },
+                  onSaved: (input) => username = input,
+                  decoration: InputDecoration(
+                    labelText: 'Nombre de Usuario',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.orange[700]),
+                    ),
+                  ),
+                ),
+              ),
+
               // contenedor AVISO PARA NAVEGANTES
               Container(
                 margin: const EdgeInsets.only(top: 25.0),
@@ -134,7 +159,8 @@ class _SignUpState extends State<SignUp> {
               // boton CREAR CUENTA
               Container(
                 margin: const EdgeInsets.only(top: 15.0),
-                child: botonCrearAcc(),
+                // primero se comprueba que el usuario ha marcado la casilla de los términos
+                child: botonCrearAccChk(),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 25.0),
@@ -143,11 +169,6 @@ class _SignUpState extends State<SignUp> {
                   height: 100,
                   width: 130,
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 25.0),
-                child:
-                    Text('© BonAppetit, 2020. Todos los derechos reservados.'),
               ),
             ],
           ),
@@ -167,8 +188,17 @@ class _SignUpState extends State<SignUp> {
         // conexion del usuario
         AuthResult autenticador = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: pass);
+
+        // una vez ha creado una cuenta
         FirebaseUser usuario = autenticador.user;
         usuario.sendEmailVerification();
+        Firestore.instance.collection('users').document(usuario.uid).setData({
+          "username": username,
+          "amigos": 0,
+          "publicaciones": 0,
+          "listamigos": []
+        });
+
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => PaginaInicio()));
       } catch (e) {
@@ -177,7 +207,7 @@ class _SignUpState extends State<SignUp> {
     } // fin if validacion de usuario
   } // fin metodo crearUsuario()
 
-  Widget botonCrearAcc() {
+  Widget botonCrearAccChk() {
     return RaisedButton(
       padding: const EdgeInsets.only(
           left: 80.0, right: 80.0, top: 20.0, bottom: 20.0),
@@ -193,5 +223,5 @@ class _SignUpState extends State<SignUp> {
         } else {}
       },
     );
-  } // fin metodo boton()
+  } // fin widget botonCrearAccChk
 } // fin de la clase

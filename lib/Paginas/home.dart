@@ -5,9 +5,8 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Home extends StatefulWidget {
   final FirebaseUser usuario;
@@ -18,13 +17,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final databaseReference = Firestore.instance;
+  String userid, username;
   int _indexActual = 0;
-  /* List cardList = [
-    Item1(),
-    Item2(),
-    Item3(),
-    Item4(),
-  ];*/
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
     for (var i = 0; i < list.length; i++) {

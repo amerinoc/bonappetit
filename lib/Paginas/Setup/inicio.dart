@@ -12,7 +12,7 @@ class PaginaInicio extends StatefulWidget {
 } // fin clase PaginaInicio
 
 class _PaginaInicioState extends State<PaginaInicio> {
-  String email, pass;
+  String email, pass, username;
   final GlobalKey<FormState> claveform = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -145,10 +145,17 @@ class _PaginaInicioState extends State<PaginaInicio> {
         // conexion del usuario
         AuthResult autenticador = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: pass);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Home(usuario: autenticador.user)));
+        FirebaseUser user = autenticador.user;
+        if (user.isEmailVerified) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Home(usuario: autenticador.user)));
+        } else {
+          Container(
+            child: Text('Debes verificar tu correo.'),
+          );
+        }
       } catch (e) {
         print(e.message());
       } // catch usuario no se ha logueado
