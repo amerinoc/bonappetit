@@ -74,10 +74,8 @@ class _SignInState extends State<SignIn> {
             .signInWithEmailAndPassword(email: email, password: pass);
 
         //TODO: Enviar a la pagina de inicio
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Home(usuario: autenticador.user)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => Home(autenticador.user)));
       } catch (e) {
         print(e.message());
       } // catch usuario no se ha logueado

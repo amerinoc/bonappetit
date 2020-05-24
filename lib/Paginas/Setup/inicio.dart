@@ -48,7 +48,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
                       return 'El campo no puede quedar vacío';
                     } // fin if validacion email
                   },
-                  initialValue: 'test123@gmail.com',
+                  initialValue: 'merino.alberto34@gmail.com',
                   onSaved: (input) => email = input,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -67,7 +67,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
                 width: 300.0,
                 child: TextFormField(
                   // ignore: missing_return
-                  initialValue: '123qwe',
+                  initialValue: '123456',
                   // ignore: missing_return
                   validator: (input) {
                     if (input.length < 6) {
@@ -147,10 +147,8 @@ class _PaginaInicioState extends State<PaginaInicio> {
             .signInWithEmailAndPassword(email: email, password: pass);
         FirebaseUser user = autenticador.user;
         if (user.isEmailVerified) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Home(usuario: autenticador.user)));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => Home(autenticador.user)));
         } else {
           Container(
             child: Text('Debes verificar tu correo.'),
