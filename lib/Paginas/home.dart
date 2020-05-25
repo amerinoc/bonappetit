@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'package:flutter/widgets.dart';
 
@@ -240,9 +243,6 @@ class _HomeState extends State<Home> {
 
   Future sacaUsername(String idUser) async {
     print(idUser);
-    /*QuerySnapshot snap = await db.collection('users').getDocuments();
-    print(snap.toString());
-    return snap.documents;*/
     await Firestore.instance
         .collection('collection')
         .where('ref', isEqualTo: idUser)
@@ -252,144 +252,7 @@ class _HomeState extends State<Home> {
     });
   } // fin metodo pintaPosts()
 
-  /* Container pintaPosts(AsyncSnapshot snap, int index) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage('images/entrantestock.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                width: 40.0,
-                height: 40.0,
-                margin: const EdgeInsets.only(left: 10.0),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  snap.data[index].data['nombre'],
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              )
-            ],
-          ),
-          Divider(
-            thickness: 0.1,
-            color: Colors.black,
-          ),
-          Container(
-            child: Text(
-              'Patata',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            //alignment: Alignment(-1.0, 0.0),
-            margin: const EdgeInsets.only(left: 10.0),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 10.0),
-            child: Image.asset('images/postrestock.jpg'),
-          ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.fastfood),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.fastfood),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.fastfood),
-                    ),
-                  ],
-                ),
-                Divider(),
-                Text(
-                    'La mejor manera de realizar una tortilla de patatas es cortar todos los trozos de manera equitativa y dejarlos cocinar durante mucho tiempo')
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+  Future<Widget> _getImage(BuildContext context, String image) async {
+    Image m;
   }
-
-  */
-
-  /* Container pintaPosts(AsyncSnapshot snap) {
-    return Container(
-      child: ListView.builder(itemBuilder: (context, index) {
-        Row(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('images/entrantestock.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              width: 40.0,
-              height: 40.0,
-              margin: const EdgeInsets.only(left: 10.0),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                widget.usuario.uid,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        );
-        Divider(
-          thickness: 0.1,
-          color: Colors.black,
-        );
-        Container(
-          child: Text(
-            'Patata',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          //alignment: Alignment(-1.0, 0.0),
-          margin: const EdgeInsets.only(left: 10.0),
-        );
-        Container(
-          margin: const EdgeInsets.only(top: 10.0),
-          child: Image.asset('images/postrestock.jpg'),
-        );
-        Container(
-            child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.fastfood),
-                ),
-                IconButton(
-                  icon: Icon(Icons.fastfood),
-                ),
-                IconButton(
-                  icon: Icon(Icons.fastfood),
-                ),
-              ],
-            ),
-            Divider(),
-            Text(
-                'La mejor manera de realizar una tortilla de patatas es cortar todos los trozos de manera equitativa y dejarlos cocinar durante mucho tiempo')
-          ],
-        ));
-      }),
-    );
-  }*/
 } // fin de la clase _HomeState
