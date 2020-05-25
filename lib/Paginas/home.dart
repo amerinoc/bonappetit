@@ -1,11 +1,11 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/widgets.dart';
 
 class Home extends StatefulWidget {
@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   final db = Firestore.instance;
   String userid, username;
   int ndocs = 0;
-  Future _data;
+  Future _data, _usuarios;
 
   @override
   Widget build(BuildContext context) {
@@ -176,28 +176,17 @@ class _HomeState extends State<Home> {
                                             const EdgeInsets.only(left: 10.0),
                                       ),
                                       Container(
-                                        margin:
-                                            const EdgeInsets.only(left: 10.0),
                                         child: Text(
-                                          snap.data[index].data['nombre'],
+                                          snap.data[index].data['username']
+                                              .toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
-                                      )
+                                        //alignment: Alignment(-1.0, 0.0),
+                                        margin:
+                                            const EdgeInsets.only(left: 10.0),
+                                      ),
                                     ],
-                                  ),
-                                  Divider(
-                                    thickness: 0.1,
-                                    color: Colors.black,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      'Patata',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    //alignment: Alignment(-1.0, 0.0),
-                                    margin: const EdgeInsets.only(left: 10.0),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(top: 10.0),
@@ -212,19 +201,16 @@ class _HomeState extends State<Home> {
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             IconButton(
-                                              icon: Icon(Icons.fastfood),
+                                              icon: Icon(Icons.live_tv),
                                             ),
-                                            IconButton(
-                                              icon: Icon(Icons.fastfood),
-                                            ),
+                                            Text(snap
+                                                .data[index].data['nombre']),
                                             IconButton(
                                               icon: Icon(Icons.fastfood),
                                             ),
                                           ],
                                         ),
                                         Divider(),
-                                        Text(
-                                            'La mejor manera de realizar una tortilla de patatas es cortar todos los trozos de manera equitativa y dejarlos cocinar durante mucho tiempo')
                                       ],
                                     ),
                                   ),
@@ -252,7 +238,21 @@ class _HomeState extends State<Home> {
     return snap.documents;
   } // fin metodo actualizaPosts()
 
-  Container pintaPosts(AsyncSnapshot snap, int index) {
+  Future sacaUsername(String idUser) async {
+    print(idUser);
+    /*QuerySnapshot snap = await db.collection('users').getDocuments();
+    print(snap.toString());
+    return snap.documents;*/
+    await Firestore.instance
+        .collection('collection')
+        .where('ref', isEqualTo: idUser)
+        .getDocuments()
+        .then((doc) {
+      username = doc.documents[1]['ref'];
+    });
+  } // fin metodo pintaPosts()
+
+  /* Container pintaPosts(AsyncSnapshot snap, int index) {
     return Container(
       child: Column(
         children: <Widget>[
@@ -321,7 +321,9 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
-  } // fin metodo pintaPosts()
+  }
+
+  */
 
   /* Container pintaPosts(AsyncSnapshot snap) {
     return Container(

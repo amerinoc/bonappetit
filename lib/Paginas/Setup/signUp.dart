@@ -196,7 +196,8 @@ class _SignUpState extends State<SignUp> {
           "username": username,
           "amigos": 0,
           "publicaciones": 0,
-          "listamigos": []
+          "listamigos": [],
+          "id_user": usuario.uid
         });
 
         Navigator.pushReplacement(
