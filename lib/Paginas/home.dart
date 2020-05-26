@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:like_button/like_button.dart';
 
 import 'package:flutter/widgets.dart';
 
@@ -23,6 +25,7 @@ class _HomeState extends State<Home> {
   final db = Firestore.instance;
   String userid, username;
   int ndocs = 0;
+  int index;
   Future _data, _usuarios;
 
   @override
@@ -30,8 +33,8 @@ class _HomeState extends State<Home> {
     sacaDocumentos();
     return Scaffold(
       floatingActionButton: Container(
-        width: 75,
-        height: 75,
+        width: 60,
+        height: 60,
         child: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {},
@@ -192,24 +195,54 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                   Container(
+                                    child: Image.network(
+                                        snap.data[index].data['img']),
                                     margin: const EdgeInsets.only(top: 10.0),
-                                    child:
-                                        Image.asset('images/postrestock.jpg'),
                                   ),
                                   Container(
                                     child: Column(
                                       children: <Widget>[
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: <Widget>[
-                                            IconButton(
-                                              icon: Icon(Icons.live_tv),
+                                            Container(
+                                              child: LikeButton(
+                                                onTap: (bool isLiked) {
+                                                  return onLikeButtonTapped(
+                                                      isLiked,
+                                                      index,
+                                                      int.parse(snap.data[index]
+                                                          .data['likes']
+                                                          .toString()));
+                                                },
+                                                likeCount: int.parse(snap
+                                                    .data[index].data['likes']
+                                                    .toString()),
+                                                size: 35.0,
+                                                circleColor: CircleColor(
+                                                    start: Color(0xffCC0000),
+                                                    end: Color(0xffFFA500)),
+                                                bubblesColor: BubblesColor(
+                                                  dotPrimaryColor:
+                                                      Color(0xffFFC04C),
+                                                  dotSecondaryColor:
+                                                      Color(0xffC97F7F),
+                                                ),
+                                              ),
                                             ),
-                                            Text(snap
-                                                .data[index].data['nombre']),
-                                            IconButton(
-                                              icon: Icon(Icons.fastfood),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 90.0, right: 84.0),
+                                              child: Text(snap
+                                                  .data[index].data['nombre']),
+                                            ),
+                                            Container(
+                                              child: IconButton(
+                                                iconSize: 32.0,
+                                                icon: Icon(
+                                                    Icons.chat_bubble_outline),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -250,9 +283,19 @@ class _HomeState extends State<Home> {
         .then((doc) {
       username = doc.documents[1]['ref'];
     });
-  } // fin metodo pintaPosts()
+  }
 
-  Future<Widget> _getImage(BuildContext context, String image) async {
-    Image m;
+  Future<bool> onLikeButtonTapped(bool isLiked, int index, int likes) async {
+    /// send your request here
+    // final bool success= await sendRequest();
+    String doc = (index + 1).toString();
+    int likestot = likes + 1;
+
+    db.collection('recetas').document(doc).updateData({'likes': likestot});
+
+    /// if failed, you can do nothing
+    // return success? !isLiked:isLiked;
+
+    return !isLiked;
   }
 } // fin de la clase _HomeState
