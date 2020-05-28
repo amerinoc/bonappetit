@@ -2,7 +2,7 @@ import 'package:bonappetit/Paginas/Setup/signUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../home.dart';
+import '../MainPage/home.dart';
 import 'signUp.dart';
 
 // clase dedicada al inicio de sesion y creacion de cuentas

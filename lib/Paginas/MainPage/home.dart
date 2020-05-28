@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:bonappetit/Paginas/MainPage/Details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
@@ -58,13 +59,6 @@ class _HomeState extends State<Home> {
       ),
       body: Column(
         children: <Widget>[
-          // widget BARRA BUSQUEDA
-          /* Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SearchBar(),
-              ),
-            ),*/
           Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(
@@ -234,8 +228,22 @@ class _HomeState extends State<Home> {
                                             Container(
                                               margin: const EdgeInsets.only(
                                                   left: 90.0, right: 84.0),
-                                              child: Text(snap
-                                                  .data[index].data['nombre']),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  muestraDetalle(
+                                                      snap.data[index]);
+                                                },
+                                                child: Text(
+                                                  snap.data[index]
+                                                      .data['nombre'],
+                                                  style: TextStyle(
+                                                      color: Colors.orange[800],
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
                                             ),
                                             Container(
                                               child: IconButton(
@@ -265,6 +273,7 @@ class _HomeState extends State<Home> {
 
   void sacaDocumentos() async {
     QuerySnapshot _miDoc = await db.collection('recetas').getDocuments();
+    print('A PINTAR!');
     List<DocumentSnapshot> _miDocCount = _miDoc.documents;
     ndocs = _miDocCount.length;
   } // fin metodo sacaDocumentos()
@@ -286,16 +295,49 @@ class _HomeState extends State<Home> {
   }
 
   Future<bool> onLikeButtonTapped(bool isLiked, int index, int likes) async {
-    /// send your request here
-    // final bool success= await sendRequest();
     String doc = (index + 1).toString();
-    int likestot = likes + 1;
 
-    db.collection('recetas').document(doc).updateData({'likes': likestot});
+    Future<DocumentSnapshot> docSnapshot =
+        db.collection('recetas').document(doc).get();
+    DocumentSnapshot docsnap = await docSnapshot;
 
-    /// if failed, you can do nothing
-    // return success? !isLiked:isLiked;
-
-    return !isLiked;
+    if (docsnap['liked'].contains(widget.usuario.uid)) {
+      isLiked = false;
+      db.collection('recetas').document(doc).updateData({
+        'liked': FieldValue.arrayRemove([widget.usuario.uid.toString()])
+      });
+      int likestot = likes - 1;
+      db.collection('recetas').document(doc).updateData({'likes': likestot});
+    } else {
+      isLiked = true;
+      db.collection('recetas').document(doc).updateData({
+        'liked': FieldValue.arrayUnion([widget.usuario.uid.toString()])
+      });
+      int likestot = likes + 1;
+      db.collection('recetas').document(doc).updateData({'likes': likestot});
+    }
+    print(isLiked);
+    return isLiked;
   }
+
+  Future<void> muestraDetalle(data) {
+    String img = data.data['img'].toString();
+    List<String> ingre = List.from(data.data['ingredientes']);
+    List<String> cant = List.from(data.data['cantidad']);
+    String desc = data.data['preparacion'].toString();
+    String nom = data.data['nombre'].toString();
+    print(cant[0]);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Details(
+                imagen: img,
+                descripcion: desc,
+                ingredientes: ingre,
+                nombre: nom,
+                cantidad: cant),
+            fullscreenDialog: true));
+  }
+
+  Future<bool> compruebaLike() async {}
 } // fin de la clase _HomeState
