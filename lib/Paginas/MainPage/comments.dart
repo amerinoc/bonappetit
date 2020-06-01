@@ -28,7 +28,9 @@ class _CommentsState extends State<Comments> {
         // se hace la pantalla scrollable
         child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[devuelveComentarios()],
+            children: <Widget>[
+              devuelveComentarios(),
+            ],
           ),
         ),
       ),
@@ -94,7 +96,7 @@ class _CommentsState extends State<Comments> {
                     const EdgeInsets.only(left: 10.0, top: 15.0, bottom: 5.0),
                 alignment: Alignment.bottomLeft,
                 child: Text(timestamp.toString().substring(0, 10)),
-              )
+              ),
             ],
           ),
         );
