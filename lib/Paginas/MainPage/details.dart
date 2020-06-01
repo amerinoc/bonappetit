@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class Details extends StatefulWidget {
+  // constructor con los datos que se le envian desde el inicio
   const Details(
       {Key key,
       this.imagen,
@@ -25,23 +26,25 @@ class _DetailsState extends State<Details> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      // appbar con el nombre de la receta
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.nombre),
       ),
       body: SafeArea(
+        // se anida bajo un SingleChildScrollView para hacer la vista scrollable
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              // con Stack se apila la lista de ingredientes por encima de la imagen
               Stack(
                 children: <Widget>[
+                  // container IMAGEN
                   Container(
-                    // margin: const EdgeInsets.only(bottom: 15.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
                         widget.imagen,
-                        // width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -55,6 +58,8 @@ class _DetailsState extends State<Details> {
                       ],
                     ),
                   ),
+
+                  // container LISTA INGREDIENTES
                   Container(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -111,6 +116,7 @@ class _DetailsState extends State<Details> {
                   ),
                 ],
               ),
+              // container PREPARACION
               Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 padding: const EdgeInsets.all(15.0),
@@ -149,7 +155,6 @@ class _DetailsState extends State<Details> {
         lista.add(
           Container(
             decoration: BoxDecoration(
-              //color: Colors.red[900],
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10.0),
                   bottomRight: Radius.circular(10.0)),
@@ -161,9 +166,6 @@ class _DetailsState extends State<Details> {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10.0),
                     bottomRight: Radius.circular(10.0)),
-                /* border: Border(
-                  bottom: BorderSide(width: 1.0, color: Colors.red[900]),
-                ),*/
               ),
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
               child: new Row(
@@ -194,7 +196,6 @@ class _DetailsState extends State<Details> {
       } else {
         lista.add(
           Container(
-            //color: Colors.red[900],
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(

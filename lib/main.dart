@@ -7,13 +7,15 @@ import 'Paginas/Setup/signIn.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // Inicio de la aplicacion
   @override
   Widget build(BuildContext context) {
+    // se indica a la aplicacion que no se pueda girar la pantalla
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
       //DeviceOrientation.portraitDown
     ]);
+    // color principal de la app, el naranja y se redirige a la clase principal
     return MaterialApp(
       title: 'BonAppetit',
       theme: ThemeData(

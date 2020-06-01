@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
-import 'package:bonappetit/Paginas/MainPage/Details.dart';
+import 'package:bonappetit/Paginas/MainPage/details.dart';
+import 'package:bonappetit/Paginas/MainPage/comments.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
@@ -246,15 +247,35 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                             Container(
-                                              child: IconButton(
-                                                iconSize: 32.0,
-                                                icon: Icon(
-                                                    Icons.chat_bubble_outline),
+                                              child: GestureDetector(
+                                                child: IconButton(
+                                                  iconSize: 32.0,
+                                                  icon: Icon(Icons
+                                                      .chat_bubble_outline),
+                                                ),
+                                                onTap: () {
+                                                  muestraComentarios(
+                                                      snap.data[index], index);
+                                                },
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Divider(),
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              left: 90.0,
+                                              right: 84.0,
+                                              bottom: 7.0),
+                                          child: Text(
+                                            snap.data[index].data['tipo_plato'],
+                                            style: TextStyle(
+                                              color: Colors.grey[600],
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 2.0,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -283,7 +304,7 @@ class _HomeState extends State<Home> {
     return snap.documents;
   } // fin metodo actualizaPosts()
 
-  Future sacaUsername(String idUser) async {
+  /* Future sacaUsername(String idUser) async {
     print(idUser);
     await Firestore.instance
         .collection('collection')
@@ -292,7 +313,7 @@ class _HomeState extends State<Home> {
         .then((doc) {
       username = doc.documents[1]['ref'];
     });
-  }
+  }*/
 
   Future<bool> onLikeButtonTapped(bool isLiked, int index, int likes) async {
     String doc = (index + 1).toString();
@@ -339,5 +360,16 @@ class _HomeState extends State<Home> {
             fullscreenDialog: true));
   }
 
-  Future<bool> compruebaLike() async {}
+  Future<void> muestraComentarios(data, int index) {
+    // se extrae la receta de la que se quieren sacar los comentarios mediante su
+    // documento
+    List<String> comments = List.from(data.data['comentarios']);
+
+    // se llama a la nueva vista que muestra los comentarios
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Comments(comentarios: comments),
+            fullscreenDialog: true));
+  }
 } // fin de la clase _HomeState

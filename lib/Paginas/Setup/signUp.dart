@@ -27,9 +27,9 @@ class _SignUpState extends State<SignUp> {
       body: Center(
         child: Form(
           key: claveform,
-          /* se crea un formulario dentro de una columna que tendra un campo de formulario de
-             texto que valide el email, indique la variable en la que se guarda y una decoracion
-           */
+          // Se crea un formulario dentro de una columna que tendra un campo de formulario de
+          // texto que valide el email, indique la variable en la que se guarda y una decoracion
+
           child: Column(
             children: <Widget>[
               // Campo EMAIL CREAR
@@ -209,6 +209,8 @@ class _SignUpState extends State<SignUp> {
   } // fin metodo crearUsuario()
 
   Widget botonCrearAccChk() {
+    // metodo para controlar si el boton de creacion puede ser pulsado segun
+    // si el checkbox esta activado
     return RaisedButton(
       padding: const EdgeInsets.only(
           left: 80.0, right: 80.0, top: 20.0, bottom: 20.0),

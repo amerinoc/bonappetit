@@ -18,16 +18,17 @@ class _PaginaInicioState extends State<PaginaInicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      // appbar con el nombre de la aplicacion
       appBar: AppBar(
         title: Text('BonAppetit'),
       ),
-      // se crea una columna con dos botones para cada funcion
+      // formulario de inicio de sesion
       body: Form(
         key: claveform,
         child: Center(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
+              // se crea una columna con dos botones para cada funcion
               Container(
                 margin: const EdgeInsets.only(top: 50.0),
                 child: Image.asset(
@@ -86,6 +87,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
                   obscureText: true,
                 ),
               ),
+
               // boton INICIO DE SESION
               Container(
                 margin: const EdgeInsets.only(top: 60.0),
@@ -112,6 +114,8 @@ class _PaginaInicioState extends State<PaginaInicio> {
                   color: Colors.black,
                 ),
               ),
+
+              // containers para redirigir a la creacion de cuentas
               Container(
                 padding: const EdgeInsets.only(left: 50.0),
                 child: Row(
@@ -139,14 +143,18 @@ class _PaginaInicioState extends State<PaginaInicio> {
     // en FireBase
 
     final signFormulario = claveform.currentState;
+    // validacion de los datos
     if (signFormulario.validate()) {
       signFormulario.save();
       try {
         // conexion del usuario
+        // autenticacion de email y contraseña
         AuthResult autenticador = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: pass);
         FirebaseUser user = autenticador.user;
+        // control de la activacion de la cuenta
         if (user.isEmailVerified) {
+          // si pasa todos los controles se dirige a la vista Home()
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => Home(autenticador.user)));
         } else {
@@ -161,6 +169,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
   } // fin metodo iniciaSesion
 
   void crearCuenta() {
+    // se redirige a la vista de creacion de cuentas
     Navigator.push(
         context,
         MaterialPageRoute(
